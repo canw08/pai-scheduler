@@ -58,3 +58,7 @@ backend/*.js
 backend/*.ico
 backend/*.png
 backend/*.map
+
+# Local tooling
+.serena/
+.venv/
