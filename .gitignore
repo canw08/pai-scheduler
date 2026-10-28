@@ -62,3 +62,6 @@ backend/*.map
 # Local tooling
 .serena/
 .venv/
+
+# Preserved nested repository history
+/.git-backups/

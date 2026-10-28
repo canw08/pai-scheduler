@@ -109,16 +109,16 @@ pnpm preview
 
 ## Git 使用说明
 
-当前目录包含三个独立仓库：根目录、`backend`、`frontend`，并未配置为 Git 子模块。需要分别查看状态、暂存和提交；仅提交根目录不会自动提交前后端源码。
+根目录是唯一的 Git 仓库，统一管理 `backend/` 和 `frontend/` 的源码。在根目录执行：
 
 ```powershell
- git status
- git -C backend status
- git -C frontend status
+git status
+git add .
+git commit -m "更新前后端项目"
 ```
 
-根仓库和后端仓库尚未配置远程；前端已有 `origin` 和模板来源 `upstream`。推送前用 `git remote -v` 或 `git -C frontend remote -v` 核对目标。
+前后端原来的 Git 元数据已备份到 `.git-backups/backend.git` 和 `.git-backups/frontend.git`。备份目录被忽略，不参与提交；旧提交历史保留在备份中，未导入根仓库的提交历史。
 
-迁移电脑后如果遇到 `detected dubious ownership`，确认目录可信后，仅将报错的具体仓库路径加入 Git 的 `safe.directory` 配置。
+根仓库尚未配置远程。需要推送时，先为根仓库配置目标地址，再执行推送。前端原来的远程配置保留在备份中，不会自动用于根仓库。
 
 虚拟环境、依赖目录、SQLite 数据库、缓存和构建产物不应提交。

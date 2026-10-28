@@ -1,0 +1,28 @@
+# Python
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+# Local Django data and settings
+db.sqlite3
+db.sqlite3-*
+media/
+staticfiles/
+.env
+.env.*
+!.env.example
+local_settings.py
+*.log
+# Editor and generated bundles
+.idea/
+.vscode/
+/bundle.css
+/bundle.css.map
+/bundle.js
+/bundle.js.map
+/index.html
+/favicon.ico
+/logo.png
+/output.txt

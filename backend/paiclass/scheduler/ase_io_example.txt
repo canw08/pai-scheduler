@@ -1,0 +1,52 @@
+runAutomaticSchedulingForAse(config, task, weight=1.045, sameSlot=1)
+
+【输入 config 格式（示例）】
+{
+  "非数学课设置": [
+    { "课程名称": "TOEFL 1", "老师名称": "Alice", "班级数": 2 },
+    { "课程名称": "Biology", "老师名称": "Bob", "班级数": 1 }
+  ],
+  "数学课设置": [
+    { "课程名称": "Algebra I", "老师名称": "Tom", "班级数": 2 },
+    { "课程名称": "AP Calculus", "老师名称": "Jerry", "班级数": 2 }
+  ],
+  "学生信息": [
+    {
+      "学生姓名": "张三",
+      "志愿1": "Algebra I",
+      "志愿2": "TOEFL 1",
+      "志愿3": "Biology",
+      "志愿4": "AP Calculus"
+    },
+    {
+      "学生姓名": "李四",
+      "志愿1": "AP Calculus",
+      "志愿2": "TOEFL 1",
+      "志愿3": "Biology"
+    }
+  ]
+}
+
+【输入 task 要求】
+- 需要有 progress 字段和 save() 方法（函数内部会执行 task.progress = int(maxFit * 100); task.save()）。
+
+【输出格式（示例）】
+返回值是一个长度为 2 的列表：
+1) maxFit：浮点数（0~1）
+2) output：二维表（第 0 行是教室名，后面 7 行是 7 个 slot）
+
+[
+  0.8735,
+  [
+    ["California","Nevada","Ohio","Minnesota","Utah","Florida","Kansas","Arizona","Texas","Georgia","Colorado","Oregon","Louisiana","Michigan","Maryland","Pennsylvania","Hawaii","Rhode Island","Sports"],
+    [["TOEFL 1","Alice"],["Biology","Bob"],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+    [["Algebra I","Tom"],["AP Calculus","Jerry"],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+    [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+    [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+    [["PE[0, 1]","PETeachers"],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+    [["PE[2, 3]","PETeachers"],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+    [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]
+  ]
+]
+
+补充：output 里每个单元格要么是 []，要么是 [课程名, 老师名]。
