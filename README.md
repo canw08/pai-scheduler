@@ -1,65 +1,78 @@
-# PAI 排课系统
+# PAI Scheduler
 
-基于 Vue 3 + Django REST Framework 的排课项目，包含 WACE、ASE 两套排课流程，以及用户、项目和预设管理。
+A course scheduling application built with Vue 3 and Django, featuring WACE and ASE workflows, timetable editing, and Excel exports.
 
-## 功能与技术
+## Features
 
-- 用户认证：自定义 Django 用户模型和 SimpleJWT。
-- 项目与预设管理：创建排课项目、配置与导入预设。
-- 自动排课：Python 线程执行 WACE / ASE 任务，支持查询任务状态。
-- 课表展示：WACE 提供班级和教师视图；ASE 提供拖动调整；两者均提供 Excel 导出。
-- 前端：Vue 3、TypeScript、Vite 6、Element Plus、UnoCSS、Pinia、Vue Router、Axios、SheetJS，部分页面使用 Three.js。
-- 后端：Django 5.1.7、DRF、SimpleJWT、django-cors-headers、NumPy、Pandas、OpenPyXL。
-- 数据库：SQLite，路径为 `backend/paiclass/db.sqlite3`。
+- **User authentication:** A custom Django user model with JWT authentication through SimpleJWT.
+- **Projects and presets:** Create scheduling projects, configure presets, and import preset data.
+- **Automatic scheduling:** Run WACE and ASE scheduling tasks in Python threads and query their status.
+- **Timetable views:** View WACE timetables by class or teacher and adjust ASE timetables with drag and drop.
+- **Excel exports:** Export timetables from both scheduling workflows.
 
-部分页面仍包含占位按钮，具体能力以当前实现为准。
+Some pages still contain placeholder buttons. Available functionality depends on the current implementation.
 
-## 目录结构
+## Technology Stack
+
+| Layer | Technologies |
+| --- | --- |
+| Frontend | Vue 3, TypeScript, Vite 6, Element Plus, UnoCSS, Pinia, Vue Router |
+| Client utilities | Axios, SheetJS, Three.js for selected pages |
+| Backend | Django 5.1.7, Django REST Framework, SimpleJWT, django-cors-headers |
+| Data processing | NumPy, Pandas, OpenPyXL |
+| Database | SQLite at `backend/paiclass/db.sqlite3` |
+
+## Project Structure
 
 ```text
 pai/
 ├── backend/paiclass/
 │   ├── manage.py
 │   ├── requirements.txt
-│   ├── paiclass/       # Django 配置与总路由
-│   ├── users/          # 用户认证
-│   ├── projects/       # 排课项目
-│   ├── presets/        # 预设与格式转换
-│   └── scheduler/      # WACE / ASE 算法及任务接口
+│   ├── paiclass/        # Django settings and root URL configuration
+│   ├── users/           # Users and authentication
+│   ├── projects/        # Scheduling projects
+│   ├── presets/         # Presets and format conversion
+│   └── scheduler/       # WACE / ASE algorithms and task endpoints
 ├── frontend/
-│   ├── src/api.ts      # 后端请求地址
-│   ├── src/pages/nav/  # 登录、项目和设置
-│   ├── src/pages/wace/ # WACE 排课流程
-│   ├── src/pages/ase/  # ASE 排课流程
-│   ├── src/components/# 组件与布局
-│   ├── src/stores/    # 状态管理
+│   ├── src/api.ts       # Backend API configuration
+│   ├── src/pages/nav/   # Login, projects, and settings
+│   ├── src/pages/wace/  # WACE scheduling workflow
+│   ├── src/pages/ase/   # ASE scheduling workflow
+│   ├── src/components/  # Shared components and layouts
+│   ├── src/stores/      # Application state
 │   └── package.json
-└── start.bat           # Windows 开发启动脚本
+└── start.bat            # Windows development launcher
 ```
 
-## 本地启动
+## Getting Started
 
-建议环境：Python 3.11+、Node.js 20+、pnpm 9.15.0（前端声明的包管理器版本）。以下命令在 Windows PowerShell 中执行。
+Recommended environment:
 
-### 后端
+- Python 3.11 or later
+- Node.js 20 or later
+- pnpm 9.15.0, as declared in `frontend/package.json`
 
-从项目根目录执行：
+The following commands use Windows PowerShell and assume you start in the repository root.
+
+### Backend
 
 ```powershell
 cd backend/paiclass
 python -m venv venv
 .\venv\Scripts\python.exe -m pip install -r requirements.txt
 .\venv\Scripts\python.exe manage.py migrate
-# 可选：创建管理后台用户
+# Optional: create a Django administrator
 .\venv\Scripts\python.exe manage.py createsuperuser
 .\venv\Scripts\python.exe manage.py runserver
 ```
 
-后端：`http://127.0.0.1:8000`；管理后台：`http://127.0.0.1:8000/admin/`。
+- Backend: `http://127.0.0.1:8000`
+- Django administration: `http://127.0.0.1:8000/admin/`
 
-### 前端
+### Frontend
 
-另开终端，从项目根目录执行：
+Open another terminal at the repository root:
 
 ```powershell
 cd frontend
@@ -67,15 +80,21 @@ pnpm install
 pnpm dev
 ```
 
-浏览器访问 `http://localhost:5173`。`frontend/src/api.ts` 中的 API 地址为 `http://127.0.0.1:8000`。后端 CORS 配置允许 `http://localhost:5173`，更换前端端口或地址时需要同步修改 Django 设置。
+Visit `http://localhost:5173`.
 
-### 一键启动
+The API client in `frontend/src/api.ts` currently targets `http://127.0.0.1:8000`. The backend CORS configuration allows `http://localhost:5173`. Update the Django settings if you change the frontend address or port.
 
-完成后端依赖安装和数据库迁移后，双击根目录 `start.bat`。它要求虚拟环境位于 `backend/paiclass/venv`；目录中已有的 `backend/venv` 不属于脚本使用的路径。前端依赖不存在时脚本会执行 `pnpm install`。关闭对应服务终端即可停止服务。
+### Windows Launcher
 
-## 检查与构建
+After installing backend dependencies and applying database migrations, double-click `start.bat` in the repository root.
 
-在 `frontend` 目录执行：
+The launcher expects the virtual environment at `backend/paiclass/venv`. An existing environment at `backend/venv` does not satisfy this requirement. If frontend dependencies are missing, the launcher runs `pnpm install`.
+
+Close the corresponding service terminals to stop the development servers.
+
+## Development Commands
+
+Run these commands in `frontend/`:
 
 ```powershell
 pnpm typecheck
@@ -84,41 +103,43 @@ pnpm build
 pnpm preview
 ```
 
-在 `backend/paiclass` 目录执行：
+Run these commands in `backend/paiclass/`:
 
 ```powershell
 .\venv\Scripts\python.exe manage.py check
 .\venv\Scripts\python.exe manage.py test
 ```
 
-这些是项目提供的检查入口，不代表当前版本已全部通过。
+These are the available validation commands; their presence does not imply that all checks currently pass.
 
-## API 入口
+## API Entry Points
 
-| 路径 | 用途 |
+| Path | Purpose |
 | --- | --- |
-| `/api/users/` | 用户接口 |
-| `/api/presets/` | 预设接口 |
-| `/api/token/refresh/` | 刷新 JWT |
-| `/api/project/` | 项目接口 |
-| `/api/project/run/` | 启动排课任务 |
-| `/api/project/run/status/` | 查询任务状态 |
-| `/api/project/fitness/` | 课表适应度检查 |
+| `/api/users/` | User operations |
+| `/api/presets/` | Preset operations |
+| `/api/token/refresh/` | Refresh a JWT access token |
+| `/api/project/` | Project operations |
+| `/api/project/run/` | Start a scheduling task |
+| `/api/project/run/status/` | Query scheduling task status |
+| `/api/project/fitness/` | Evaluate timetable fitness |
 
-请求方法、参数和认证要求以应用的 `urls.py` 和 `views.py` 为准。当前 Django 设置用于本地开发，部署前需配置独立密钥、主机白名单和生产环境设置。
+Refer to each Django application's `urls.py` and `views.py` for HTTP methods, request parameters, and authentication requirements.
 
-## Git 使用说明
+The current Django settings target local development. Configure a separate secret key, allowed hosts, and production settings before deployment.
 
-根目录是唯一的 Git 仓库，统一管理 `backend/` 和 `frontend/` 的源码。在根目录执行：
+## Repository Management
+
+The repository root manages both `backend/` and `frontend/` as ordinary directories in a single Git repository.
 
 ```powershell
 git status
 git add .
-git commit -m "更新前后端项目"
+git commit -m "Update frontend and backend"
 ```
 
-前后端原来的 Git 元数据已备份到 `.git-backups/backend.git` 和 `.git-backups/frontend.git`。备份目录被忽略，不参与提交；旧提交历史保留在备份中，未导入根仓库的提交历史。
+Local backups of the previous nested repositories are stored in `.git-backups/`, including `backend.git`, `frontend.git`, and `frontend-paiclass.git`. This directory is ignored by Git. Previous commit histories remain in those backups and have not been imported into the root repository's history.
 
-根仓库尚未配置远程。需要推送时，先为根仓库配置目标地址，再执行推送。前端原来的远程配置保留在备份中，不会自动用于根仓库。
+The root repository does not currently have a remote configured. Configure the intended remote before pushing. The frontend's previous remote configuration remains in its backup and is not automatically applied to the root repository.
 
-虚拟环境、依赖目录、SQLite 数据库、缓存和构建产物不应提交。
+Keep virtual environments, dependencies, SQLite databases, caches, and build output out of version control.
